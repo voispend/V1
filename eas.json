@@ -1,0 +1,48 @@
+{
+  "cli": {
+    "version": ">= 12.0.0"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "NODE_ENV": "development"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "env": {
+        "NODE_ENV": "staging"
+      }
+    },
+    "production": {
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  },
+  "update": {
+    "development": {
+      "runtimeVersion": {
+        "policy": "appVersion"
+      },
+      "channel": "dev"
+    },
+    "preview": {
+      "runtimeVersion": {
+        "policy": "appVersion"
+      },
+      "channel": "beta"
+    },
+    "production": {
+      "runtimeVersion": {
+        "policy": "appVersion"
+      },
+      "channel": "production"
+    }
+  }
+}
