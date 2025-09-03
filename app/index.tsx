@@ -158,7 +158,7 @@ export default function HomeScreen() {
             keyExtractor={(item) => item.id}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.expenseList}
-            scrollEnabled={false} // Disable scrolling since parent handles it
+            scrollEnabled={true} // Enable scrolling for recent expenses
           />
         ) : (
           <Text style={[styles.emptyText, { color: isDark ? colors.gray[400] : colors.gray[500] }]}>

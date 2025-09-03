@@ -417,6 +417,7 @@ const styles = StyleSheet.create({
   mainContent: {
     flex: 1,
     paddingHorizontal: 20,
+    paddingTop: 24, // Add more spacing between header and content
   },
 
   voiceSection: {
