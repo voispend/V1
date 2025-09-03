@@ -10,23 +10,23 @@ import { useLanguage } from '../src/contexts/LanguageContext';
 import { useSupabase } from '../src/hooks/useSupabase';
 
 export default function LoginScreen() {
-  const { signIn, signUp, signInWithPhone, verifyOtp, loading } = useAuth();
+  const { signIn, signUp, /* signInWithPhone, verifyOtp, */ loading } = useAuth();
   const { resetPassword } = useSupabase();
   const { t } = useLanguage();
   
   const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
+  // const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
-  const [isPhoneAuth, setIsPhoneAuth] = useState(false);
+  // const [isPhoneAuth, setIsPhoneAuth] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [verificationSent, setVerificationSent] = useState(false);
-  const [otpSent, setOtpSent] = useState(false);
-  const [otp, setOtp] = useState('');
+  // const [otpSent, setOtpSent] = useState(false);
+  // const [otp, setOtp] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
@@ -65,20 +65,22 @@ export default function LoginScreen() {
 
   const clearForm = () => {
     setEmail('');
-    setPhoneNumber('');
+    // setPhoneNumber('');
     setPassword('');
     setFullName('');
     setErrorMessage('');
     setShowForgotPassword(false);
     setVerificationSent(false);
-    setOtpSent(false);
-    setOtp('');
+    // setOtpSent(false);
+    // setOtp('');
   };
 
   const handleSubmit = async () => {
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     setErrorMessage('');
     
+    // Phone authentication flow - COMMENTED OUT FOR LATER USE
+    /*
     if (isPhoneAuth) {
       // Phone authentication flow
       if (!phoneNumber) {
@@ -137,6 +139,7 @@ export default function LoginScreen() {
         }
       return;
     }
+    */
     
     // Email authentication flow
     if (!email || !password || (!isLogin && !fullName)) {
@@ -213,11 +216,14 @@ export default function LoginScreen() {
     clearForm();
   };
 
+  // Phone authentication toggle - COMMENTED OUT FOR LATER USE
+  /*
   const toggleAuthMethod = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     setIsPhoneAuth(!isPhoneAuth);
     clearForm();
   };
+  */
 
   if (verificationSent) {
     return (
@@ -343,7 +349,8 @@ export default function LoginScreen() {
                   </TouchableOpacity>
                 </View>
 
-                {/* Authentication Method Toggle */}
+                {/* Authentication Method Toggle - COMMENTED OUT FOR LATER USE */}
+                {/*
                 <View style={styles.authMethodToggleContainer}>
                   <TouchableOpacity
                     style={[styles.authMethodToggleButton, !isPhoneAuth && styles.activeAuthMethodToggle]}
@@ -362,6 +369,7 @@ export default function LoginScreen() {
                     </Text>
                                      </TouchableOpacity>
                 </View>
+                */}
 
                 {/* Form */}
                 <View style={styles.form}>
@@ -382,23 +390,25 @@ export default function LoginScreen() {
                     </View>
                   )}
 
-                  {/* Email/Phone Input */}
-                  {!isPhoneAuth ? (
-                    <View style={styles.inputContainer}>
-                      <Text style={styles.inputLabel}>Email</Text>
-                      <View style={styles.inputWrapper}>
-                        <Ionicons name="mail" size={20} color="#9CA3AF" style={styles.inputIcon} />
-                        <TextInput
-                          style={styles.textInput}
-                          value={email}
-                          onChangeText={setEmail}
-                          placeholder="Enter your email"
-                          keyboardType="email-address"
-                          autoCapitalize="none"
-                          autoCorrect={false}
-                        />
-                      </View>
+                  {/* Email Input */}
+                  <View style={styles.inputContainer}>
+                    <Text style={styles.inputLabel}>Email</Text>
+                    <View style={styles.inputWrapper}>
+                      <Ionicons name="mail" size={20} color="#9CA3AF" style={styles.inputIcon} />
+                      <TextInput
+                        style={styles.textInput}
+                        value={email}
+                        onChangeText={setEmail}
+                        placeholder="Enter your email"
+                        keyboardType="email-address"
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                      />
                     </View>
+                  </View>
+
+                  {/* Phone Number Input - COMMENTED OUT FOR LATER USE */}
+                  {/*
                   ) : (
                     <View style={styles.inputContainer}>
                       <Text style={styles.inputLabel}>Phone Number</Text>
@@ -416,6 +426,7 @@ export default function LoginScreen() {
                       </View>
                     </View>
                   )}
+                  */}
 
                   {/* Password Input */}
                   <View style={styles.inputContainer}>
@@ -444,7 +455,8 @@ export default function LoginScreen() {
                     </View>
                   </View>
 
-                  {/* OTP Input for Phone Authentication */}
+                  {/* OTP Input for Phone Authentication - COMMENTED OUT FOR LATER USE */}
+                  {/*
                   {isPhoneAuth && otpSent && (
                     <View style={styles.inputContainer}>
                       <Text style={styles.inputLabel}>OTP Code</Text>
@@ -463,6 +475,7 @@ export default function LoginScreen() {
                       </View>
                     </View>
                   )}
+                  */}
 
                   {/* Remember Me & Forgot Password */}
                   {isLogin && (
@@ -493,14 +506,8 @@ export default function LoginScreen() {
                   >
                     <Text style={styles.submitButtonText}>
                       {isSubmitting 
-                        ? (isPhoneAuth 
-                            ? (otpSent ? 'Verifying...' : 'Sending OTP...') 
-                            : (isLogin ? 'Signing In...' : 'Creating Account...')
-                          )
-                        : (isPhoneAuth 
-                            ? (otpSent ? 'Verify OTP' : 'Send OTP') 
-                            : (isLogin ? 'Sign In' : 'Create Account')
-                          )
+                        ? (isLogin ? 'Signing In...' : 'Creating Account...')
+                        : (isLogin ? 'Sign In' : 'Create Account')
                       }
                     </Text>
                   </TouchableOpacity>
